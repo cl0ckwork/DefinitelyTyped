@@ -213,6 +213,10 @@ declare namespace umzug {
     interface Migration {
         path: string;
         file: string;
+        constructor(path: string, options: MigrationOptions);
+        
+        up(): Promise<any>;
+        down(): Promise<any>;
     }
 
     interface Umzug extends EventEmitter {
@@ -237,6 +241,7 @@ declare namespace umzug {
          */
         up(migration?: string): Promise<Migration[]>;
         up(migrations?: string[]): Promise<Migration[]>;
+        up(migrations?: Migration[]): Promise<Migration[]>;
         up(options?: UpToOptions | UpDownMigrationsOptions): Promise<Migration[]>;
 
         /**
@@ -244,6 +249,7 @@ declare namespace umzug {
          */
         down(migration?: string): Promise<Migration[]>;
         down(migrations?: string[]): Promise<Migration[]>;
+        down(migrations?: Migration[]): Promise<Migration[]>;
         down(options?: DownToOptions | UpDownMigrationsOptions): Promise<Migration[]>;
 
         on(eventName: 'migrating' | 'reverting' | 'migrated' | 'reverted', cb?: (name: string, migration: Migration) => void): this;
